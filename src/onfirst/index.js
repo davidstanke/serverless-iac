@@ -5,6 +5,6 @@
  * @param {!express:Response} res HTTP response context.
  */
 exports.onFirst = (req, res) => {
-  let player = req.query.player || req.body.player || 'Who';
+  let player = req.query.player || req.body.player || 'who who';
   res.status(200).send(player);
 };

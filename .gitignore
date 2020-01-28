@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+.terraform
+credentials.json
+oauth_credentials
+dist
+js/constants.js
