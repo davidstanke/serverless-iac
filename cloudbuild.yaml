@@ -27,7 +27,7 @@ steps:
 
   - name: hashicorp/terraform:0.12.20
     entrypoint: 'terraform'
-    args: ['init','-backend-config=bucket=iac-for-serverless-tfstate']
+    args: ['init','-backend-config=bucket=$PROJECT_ID-tfstate']
   
   - name: hashicorp/terraform:0.12.20
     entrypoint: 'terraform'
