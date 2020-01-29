@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket = "PROJECT_ID-tfstate"
+    prefix = "terraform/state"
+  }
+}
+
 provider "google" {
   project = var.project_id
 }
