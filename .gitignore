@@ -109,3 +109,4 @@ oauth_credentials
 dist
 js/constants.js
 *.tfstate*
+.DS_Store
