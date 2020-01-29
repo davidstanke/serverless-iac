@@ -1,29 +1,29 @@
 steps:
   - name: gcr.io/cloud-builders/docker
-    id: "build hello"
-    args: ["build","-t","gcr.io/$PROJECT_ID/hello:$SHORT_SHA","."]
-    dir: "src/hello"
+    id: "build onfirst"
+    args: ["build","-t","gcr.io/$PROJECT_ID/onfirst:$SHORT_SHA","."]
+    dir: "src/onfirst"
     waitFor: ['-']
 
   - name: gcr.io/cloud-builders/docker
-    id: "build goodbye"
-    args: ["build","-t","gcr.io/$PROJECT_ID/goodbye:$SHORT_SHA","."]
-    dir: "src/hello"
+    id: "build onsecond"
+    args: ["build","-t","gcr.io/$PROJECT_ID/onsecond:$SHORT_SHA","."]
+    dir: "src/onsecond"
     waitFor: ['-']
 
   - name: gcr.io/cloud-builders/docker
     args: [
       "push",
-      "gcr.io/$PROJECT_ID/hello:$SHORT_SHA",
+      "gcr.io/$PROJECT_ID/onfirst:$SHORT_SHA",
       ]
-    waitFor: ["build hello"]
+    waitFor: ["build onfirst"]
 
   - name: gcr.io/cloud-builders/docker
     args: [
       "push",
-      "gcr.io/$PROJECT_ID/goodbye:$SHORT_SHA",
+      "gcr.io/$PROJECT_ID/onsecond:$SHORT_SHA",
       ]
-    waitFor: ["build goodbye"]
+    waitFor: ["build onsecond"]
 
   - name: hashicorp/terraform:0.12.20
     entrypoint: 'terraform'
@@ -34,6 +34,6 @@ steps:
     args: [
         "apply", "-auto-approve",
         "-var","project_id=$PROJECT_ID",
-        "-var",'service_names=["hello","goodbye"]',
+        "-var",'service_names=["onfirst","onsecond"]',
         "-var","image_tag=$SHORT_SHA"
     ]
