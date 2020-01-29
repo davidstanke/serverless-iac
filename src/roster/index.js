@@ -1,5 +1,5 @@
 const request = require('request')
-const environment_prefix = ''
+const environment_prefix = process.env.ENVIRONMENT_PREFIX || ''
 const service_domain = 'doingdevops.com'
 
 exports.roster = (req, res) => {
@@ -7,14 +7,22 @@ exports.roster = (req, res) => {
   const onSecondService = 'https://' + environment_prefix + 'onsecond.' + service_domain
 
   const onfirst = new Promise(function(resolve, reject) {
-    request({url:onFirstService}, (error,response) => {
-      resolve(response.body)
+    request({url:onFirstService,timeout:1000}, (error,response) => {
+      if(error) {
+        resolve("UNKNOWN")
+      } else {
+        resolve(response.body)
+      }
     })
   })
 
   const onsecond = new Promise(function(resolve, reject) {
-    request({url:onSecondService}, (error,response) => {
-      resolve(response.body)
+    request({url:onSecondService,timeout:1000}, (error,response) => {
+      if(error) {
+        resolve("UNKNOWN")
+      } else {
+        resolve(response.body)
+      }
     })
   })
 

@@ -12,6 +12,18 @@ steps:
     waitFor: ['-']
 
   - name: gcr.io/cloud-builders/docker
+    id: "build roster"
+    args: [
+      "build",
+      "-t","gcr.io/$PROJECT_ID/roster:$SHORT_SHA",
+      "--build-arg","ENVIRONMENT_PREFIX=$_ENVIRONMENT_PREFIX",
+      ".",
+      ]
+    dir: "src/roster"
+    waitFor: ['-']
+
+  - name: gcr.io/cloud-builders/docker
+    id: "push onfirst"
     args: [
       "push",
       "gcr.io/$PROJECT_ID/onfirst:$SHORT_SHA",
@@ -19,21 +31,37 @@ steps:
     waitFor: ["build onfirst"]
 
   - name: gcr.io/cloud-builders/docker
+    id: "push onsecond"
     args: [
       "push",
       "gcr.io/$PROJECT_ID/onsecond:$SHORT_SHA",
       ]
     waitFor: ["build onsecond"]
 
+  - name: gcr.io/cloud-builders/docker
+    id: "push roster"
+    args: [
+      "push",
+      "gcr.io/$PROJECT_ID/roster:$SHORT_SHA",
+      ]
+    waitFor: ["build roster"]
+
   - name: hashicorp/terraform:0.12.20
+    id: "tf init"
     entrypoint: 'terraform'
     args: ['init','-backend-config=bucket=$PROJECT_ID-tfstate']
+    waitFor: ['-']
   
   - name: hashicorp/terraform:0.12.20
+    id: "tf apply"
     entrypoint: 'terraform'
     args: [
         "apply", "-auto-approve",
         "-var","project_id=$PROJECT_ID",
-        "-var",'service_names=["onfirst","onsecond"]',
+        "-var",'service_names=["onfirst","onsecond","roster"]',
         "-var","image_tag=$SHORT_SHA"
     ]
+    waitFor: ["push onfirst","push onsecond","push roster"]
+
+substitutions:
+  _ENVIRONMENT_PREFIX: ''

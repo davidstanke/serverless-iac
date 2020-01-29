@@ -2,6 +2,10 @@
 # https://hub.docker.com/_/node
 FROM node:12-slim
 
+# this string specifies what environment we're running in (and so what endpoints to use)
+ARG ENVIRONMENT_PREFIX=''
+ENV ENVIRONMENT_PREFIX=${ENVIRONMENT_PREFIX}
+
 # Create and change to the app directory.
 WORKDIR /usr/src/app
 
