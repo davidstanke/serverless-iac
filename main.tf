@@ -1,16 +1,5 @@
-terraform {
-  backend "gcs" {
-    bucket = "PROJECT_ID-tfstate"
-    prefix = "terraform/state"
-  }
-}
-
 provider "google" {
   project = var.project_id
-}
-
-resource "google_project_service" "run" {
-  service = "run.googleapis.com"
 }
 
 resource "google_cloud_run_service" "default" {
@@ -33,9 +22,9 @@ resource "google_cloud_run_service" "default" {
 
 }
 
-# output "url" {
-#   value = "${google_cloud_run_service.default.status[0].url}"
-# }
+output "url" {
+  value = "${google_cloud_run_service.default[0].status[0].url}"
+}
 
 # Public access for services
 data "google_iam_policy" "noauth" {
