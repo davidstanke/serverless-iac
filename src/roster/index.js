@@ -7,7 +7,7 @@ exports.roster = (req, res) => {
   const onSecondService = 'https://' + environment_prefix + 'onsecond.' + service_domain
 
   const onfirst = new Promise(function(resolve, reject) {
-    request({url:onFirstService,timeout:1000}, (error,response) => {
+    request({url:onFirstService,timeout:3000}, (error,response) => {
       if(error) {
         resolve("UNKNOWN")
       } else {
@@ -17,7 +17,7 @@ exports.roster = (req, res) => {
   })
 
   const onsecond = new Promise(function(resolve, reject) {
-    request({url:onSecondService,timeout:1000}, (error,response) => {
+    request({url:onSecondService,timeout:3000}, (error,response) => {
       if(error) {
         resolve("UNKNOWN")
       } else {
