@@ -1,7 +1,7 @@
 # demo of using Terraform to deploy serverless
 
 #### To run applications locally:
-[TODO]
+_See individual applications under `src`_
 
 #### To deploy from local:
 `./deploy_from_local.sh`
