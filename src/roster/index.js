@@ -27,6 +27,6 @@ exports.roster = (req, res) => {
   })
 
   Promise.all([onfirst, onsecond]).then(function(values) {
-    res.send("<h1>" + values[0] + " is on first. " + values[1] + " is on second." + "</h1>")
+    res.send("<h1><b>" + values[0] + "</b> is on first. <b>" + values[1] + "</b> is on second." + "</h1>")
   })
 }
