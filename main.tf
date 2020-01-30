@@ -23,7 +23,7 @@ resource "google_cloud_run_service" "default" {
 }
 
 output "url" {
-  value = "${google_cloud_run_service.default[0].status[0].url}"
+  value = flatten(google_cloud_run_service.default[*].status[*].url)
 }
 
 # Public access for services
