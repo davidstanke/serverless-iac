@@ -86,7 +86,7 @@ steps:
     args: [
         "apply", "-auto-approve",
         "-var","project_id=$PROJECT_ID",
-        "-var",'service_names=["onfirst","onsecond","roster"]',
+        "-var",'service_names=["onfirst","onsecond","onthird","roster"]',
         "-var","image_tag=$SHORT_SHA"
     ]
     waitFor: ["tf init","push onfirst","push onsecond","push onthird","push roster"]
