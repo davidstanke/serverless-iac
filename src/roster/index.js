@@ -7,6 +7,7 @@ const service_domain = 'doingdevops.com'
 exports.roster = (req, res) => {
   const onFirstService = 'https://' + environment_prefix + 'onfirst.' + service_domain
   const onSecondService = 'https://' + environment_prefix + 'onsecond.' + service_domain
+  const onThirdService = 'https://' + environment_prefix + 'onthird.' + service_domain
 
   const onfirst = new Promise(function(resolve, reject) {
     console.log("requesting " + onFirstService)
@@ -30,10 +31,22 @@ exports.roster = (req, res) => {
     })
   })
 
-  Promise.all([onfirst, onsecond]).then(function(values) {
+  const onthird = new Promise(function(resolve, reject) {
+    console.log("requesting " + onThirdService)
+    request({url:onThirdService,timeout:10000}, (error,response) => {
+      if(error) {
+        resolve("UNKNOWN")
+      } else {
+        resolve(response.body)
+      }
+    })
+  })
+
+  Promise.all([onfirst, onsecond, onthird]).then(function(values) {
     res.send(pug.renderFile('templates/index.pug', {
       onfirst: values[0],
-      onsecond: values[1]
+      onsecond: values[1],
+      onthird: values[2]
     }))
     // res.send("<h1><b style=color:blue>" + values[0] + "</b>'s on first. <b style=color:blue>" + values[1] + "</b>'s on second." + "</h1>")
   })
