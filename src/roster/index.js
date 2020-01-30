@@ -10,7 +10,7 @@ exports.roster = (req, res) => {
 
   const onfirst = new Promise(function(resolve, reject) {
     console.log("requesting " + onFirstService)
-    request({url:onFirstService,timeout:3000}, (error,response) => {
+    request({url:onFirstService,timeout:10000}, (error,response) => {
       if(error) {
         resolve("UNKNOWN")
       } else {
@@ -21,7 +21,7 @@ exports.roster = (req, res) => {
 
   const onsecond = new Promise(function(resolve, reject) {
     console.log("requesting " + onSecondService)
-    request({url:onSecondService,timeout:3000}, (error,response) => {
+    request({url:onSecondService,timeout:10000}, (error,response) => {
       if(error) {
         resolve("UNKNOWN")
       } else {
