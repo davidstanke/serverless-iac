@@ -26,6 +26,12 @@ steps:
     waitFor: ["test onsecond"]
 
   - name: gcr.io/cloud-builders/docker
+    id: "build onthird"
+    args: ["build","-t","gcr.io/$PROJECT_ID/onthird:$SHORT_SHA","."]
+    dir: "src/onthird"
+    waitFor: ["-"]
+
+  - name: gcr.io/cloud-builders/docker
     id: "build roster"
     args: [
       "build",
