@@ -4,4 +4,4 @@
 `npm start`
 
 ### To containerize:
-`docker build -t <tag> .`
+`docker build -t <tag> .` 
