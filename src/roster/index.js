@@ -1,4 +1,6 @@
 const request = require('request')
+const pug = require('pug')
+
 const environment_prefix = process.env.ENVIRONMENT_PREFIX || ''
 const service_domain = 'doingdevops.com'
 
@@ -29,6 +31,10 @@ exports.roster = (req, res) => {
   })
 
   Promise.all([onfirst, onsecond]).then(function(values) {
-    res.send("<h1><b style=color:blue>" + values[0] + "</b>'s on first. <b style=color:blue>" + values[1] + "</b>'s on second." + "</h1>")
+    res.send(pug.renderFile('templates/index.pug', {
+      onfirst: values[0],
+      onsecond: values[1]
+    }))
+    // res.send("<h1><b style=color:blue>" + values[0] + "</b>'s on first. <b style=color:blue>" + values[1] + "</b>'s on second." + "</h1>")
   })
 }

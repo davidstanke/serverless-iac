@@ -1,0 +1,21 @@
+<link href="https://fonts.googleapis.com/css?family=Work+Sans:800&display=swap" rel="stylesheet">
+<style>
+html {
+  margin:0;
+  padding:0;
+}
+body {
+  background-color:#32a852;
+  color:white;
+  font-size:5rem;
+  font-family: 'Work Sans', sans-serif;
+  padding:1rem;
+}
+p {
+  margin:.5rem;
+}
+em {
+  font-style:normal;
+  color:#ff6;
+}
+</style>
