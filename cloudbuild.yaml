@@ -89,7 +89,7 @@ steps:
         "-var",'service_names=["onfirst","onsecond","roster"]',
         "-var","image_tag=$SHORT_SHA"
     ]
-    waitFor: ["push onfirst","push onsecond","push onthird","push roster"]
+    waitFor: ["tf init","push onfirst","push onsecond","push onthird","push roster"]
 
 substitutions:
   _ENVIRONMENT_PREFIX: ''
