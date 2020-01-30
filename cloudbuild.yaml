@@ -1,9 +1,16 @@
 steps:
+  - name: node:12-slim
+    id: "test onfirst"
+    entrypoint: "npm"
+    args: ["install-test"]
+    dir: "src/onfirst"
+    waitFor: ["-"]
+
   - name: gcr.io/cloud-builders/docker
     id: "build onfirst"
     args: ["build","-t","gcr.io/$PROJECT_ID/onfirst:$SHORT_SHA","."]
     dir: "src/onfirst"
-    waitFor: ['-']
+    waitFor: ["test onfirst"]
 
   - name: gcr.io/cloud-builders/docker
     id: "build onsecond"
