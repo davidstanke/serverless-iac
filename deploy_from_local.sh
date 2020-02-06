@@ -7,7 +7,7 @@ PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
 IMAGE_TAG=$(date +"%s")
 
 # build docker container(s)
-for service in onfirst onsecond onthird roster
+for service in onfirst onsecond roster
 do
   echo "building ${service}"
   docker build -t gcr.io/${PROJECT_ID}/${service}:${IMAGE_TAG} src/${service}
