@@ -3,8 +3,8 @@ variable "project-id" {
   # default="iac-for-serverless-staging"
 }
 
-variable "service-name" {
-  type = string
+variable "service-names" {
+  type = list(string)
 }
 
 variable "image-tag" {
