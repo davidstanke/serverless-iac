@@ -1,4 +1,4 @@
-variable "project_id" {
+variable "project-id" {
   type = string
   # default="iac-for-serverless-staging"
 }
