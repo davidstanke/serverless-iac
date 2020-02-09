@@ -1,6 +1,7 @@
 resource "google_cloud_run_service" "myservice" {
   
-  name     = var.service-name
+  count    = length(var.service-names)
+  name     = "service-${var.service-names[count.index]}"
   location = "us-central1"
 
   template {
@@ -15,7 +16,7 @@ resource "google_cloud_run_service" "myservice" {
       container_concurrency = 80
       containers {
         # image = "gcr.io/${var.project_id}/${var.service_names[count.index]}:${var.image_tag}"
-        image = "gcr.io/${var.project-id}/${var.service-name}:${var.image-tag}"
+        image = "gcr.io/${var.project-id}/${var.service-names[count.index]}:${var.image-tag}"
         resources {
           limits = {
             cpu = "1000m"
@@ -45,8 +46,9 @@ data "google_iam_policy" "noauth" {
 
 # Enable public access on Cloud Run service
 resource "google_cloud_run_service_iam_policy" "allUsers" {
-  location    = google_cloud_run_service.myservice.location
-  project     = google_cloud_run_service.myservice.project
-  service     = google_cloud_run_service.myservice.name
+  count    = length(var.service-names)
+  location    = google_cloud_run_service.myservice[count.index].location
+  project     = google_cloud_run_service.myservice[count.index].project
+  service     = google_cloud_run_service.myservice[count.index].name
   policy_data = data.google_iam_policy.noauth.policy_data
 }

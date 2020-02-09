@@ -112,3 +112,6 @@ js/constants.js
 .DS_Store
 
 __pycache__
+
+# don't commit project-specific vars to source
+terraform.tfvars

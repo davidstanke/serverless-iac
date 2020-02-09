@@ -2,10 +2,9 @@ provider "google" {
   project = var.project-id
 }
 
-module "onfirst" {
+module "deploy-service" {
   source = "./modules/deploy-service"
-  count = length(service-names)
   image-tag = var.image-tag
-  service-name = var.service-name
+  service-names = var.service-names
   project-id = var.project-id
 }
