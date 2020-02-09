@@ -7,15 +7,13 @@ PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
 IMAGE_TAG=$(date +"%s")
 
 # build docker container(s)
-for service in onfirst onsecond roster
+for service in onfirst onsecond onthird roster
 do
   echo "building ${service}"
   docker build -t gcr.io/${PROJECT_ID}/${service}:${IMAGE_TAG} src/${service}
   docker push gcr.io/${PROJECT_ID}/${service}:${IMAGE_TAG}
 done
 
-terraform init -backend-config=bucket=iac-for-serverless-tfstate
-
 # update cloud run services
 echo "deploying services"
-terraform apply -var project_id=${PROJECT_ID} -var service_names='["onfirst","onsecond","onthird","roster"]' -var image_tag=${IMAGE_TAG}
+terraform apply -var image-tag=${IMAGE_TAG}
