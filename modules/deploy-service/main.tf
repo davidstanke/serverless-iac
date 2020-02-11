@@ -1,7 +1,7 @@
 resource "google_cloud_run_service" "myservice" {
   
   count    = length(var.service-names)
-  name     = ${var.service-names[count.index]}
+  name     = var.service-names[count.index]
   location = "us-central1"
 
   template {
