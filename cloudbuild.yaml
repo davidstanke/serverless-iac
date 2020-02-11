@@ -90,6 +90,8 @@ steps:
         "-var","image-tag=$SHORT_SHA"
     ]
     waitFor: ["tf init","push onfirst","push onsecond","push onthird","push roster"]
+    env:
+      - 'TF_LOG=DEBUG'
 
 substitutions:
   _ENVIRONMENT_PREFIX: ''
