@@ -14,8 +14,6 @@ do
   docker push gcr.io/${PROJECT_ID}/${service}:${IMAGE_TAG}
 done
 
-terraform init -backend-config=bucket=iac-for-serverless-tfstate
-
 # update cloud run services
 echo "deploying services"
-terraform apply -var project_id=${PROJECT_ID} -var service_names='["onfirst","onsecond","onthird","roster"]' -var image_tag=${IMAGE_TAG}
+terraform apply -var image-tag=${IMAGE_TAG}

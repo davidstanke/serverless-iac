@@ -1,14 +1,18 @@
-variable "project_id" {
+variable "project-id" {
   type = string
-  default="iac-for-serverless-staging"
+  # default="iac-for-serverless-staging"
 }
 
-variable "service_names" {
+variable "service-names" {
   type = list(string)
-  default=["onfirst","onsecond","onthird","roster"]
+  default = [
+    "onfirst",
+    "onsecond",
+    "onthird",
+    "roster",
+  ]
 }
 
-variable "image_tag" {
+variable "image-tag" {
   type = string
-  default = "test"
 }
