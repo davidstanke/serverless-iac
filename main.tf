@@ -10,22 +10,26 @@ provider "google" {
 #   project-id = var.project-id
 # }
 
-module "deploy-cloudfunction-onfirst" {
-  source ="./modules/deploy-cloudfunctions"
-  function-name = "onfirst"
-  functions-source-bucket="${var.project-id}-functions-source"
+resource "google_storage_bucket" "bucket" {
+  name = "${var.project-id}-functions-source"
 }
 
-module "deploy-cloudfunction-onsecond {
-  source ="./modules/deploy-cloudfunctions"
+module "deploy-cloudfunction-onfirst" {
+  source ="./modules/deploy-cloudfunctions-node"
+  function-name = "onfirst"
+  functions-source-bucket=google_storage_bucket.bucket.name
+}
+
+module "deploy-cloudfunction-onsecond" {
+  source ="./modules/deploy-cloudfunctions-node"
   function-name = "onsecond"
-  functions-source-bucket="${var.project-id}-functions-source"
+  functions-source-bucket=google_storage_bucket.bucket.name
 }
 
 module "deploy-cloudfunction-onthird" {
-  source ="./modules/deploy-cloudfunctions"
+  source ="./modules/deploy-cloudfunctions-python"
   function-name = "onthird"
-  functions-source-bucket="${var.project-id}-functions-source"
+  functions-source-bucket=google_storage_bucket.bucket.name
 }
 
 # deploy 'roster' service as Cloud Run

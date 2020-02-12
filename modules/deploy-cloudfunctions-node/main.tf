@@ -1,7 +1,3 @@
-resource "google_storage_bucket" "bucket" {
-  name = var.functions-source-bucket
-}
-
 # zip up our source code
 data "archive_file" "function_zip" {
  type        = "zip"
@@ -18,7 +14,7 @@ locals {
 # place the zip-ed code in the bucket
 resource "google_storage_bucket_object" "function_source" {
  name   = "${var.function-name}-${local.function_source_hash}.zip"
- bucket = google_storage_bucket.bucket.name
+ bucket = var.functions-source-bucket
  source = data.archive_file.function_zip.output_path
 }
 
@@ -28,7 +24,7 @@ resource "google_cloudfunctions_function" "myfunction" {
   runtime               = "nodejs8"
 
   available_memory_mb   = 128
-  source_archive_bucket = google_storage_bucket.bucket.name
+  source_archive_bucket = var.functions-source-bucket
   source_archive_object = google_storage_bucket_object.function_source.name
   entry_point           = var.function-name
   trigger_http          = true

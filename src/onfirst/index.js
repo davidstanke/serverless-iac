@@ -1,3 +1,3 @@
-exports.experimental1 = (req, res) => {
+exports.onfirst = (req, res) => {
   res.send('Who');
 };
