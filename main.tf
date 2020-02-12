@@ -33,12 +33,12 @@ module "deploy-cloudfunction-onthird" {
 }
 
 # deploy 'roster' service as Cloud Run
-# module "deploy-cloudrun" {
-#   source = "./modules/deploy-cloudrun"
-#   project-id = var.project-id
-#   image-tag = var.image-tag
-#   service-name = "roster"
-#   onFirstService = module.deploy-cloudfunction-onfirst.cloudfunction-url
-#   onSecondService = module.deploy-cloudfunction-onsecond.cloudfunction-url
-#   onThirdService = module.deploy-cloudfunction-onthird.cloudfunction-url
-# }
+module "deploy-cloudrun" {
+  source = "./modules/deploy-cloudrun"
+  project-id = var.project-id
+  image-tag = var.image-tag
+  service-name = "roster"
+  onFirstService = module.deploy-cloudfunction-onfirst.cloudfunction-url
+  onSecondService = module.deploy-cloudfunction-onsecond.cloudfunction-url
+  onThirdService = module.deploy-cloudfunction-onthird.cloudfunction-url
+}
