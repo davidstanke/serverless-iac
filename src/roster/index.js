@@ -1,13 +1,11 @@
 const request = require('request')
 const pug = require('pug')
 
-const environment_prefix = process.env.ENVIRONMENT_PREFIX || ''
-const service_domain = 'doingdevops.com'
+const onFirstService = process.env.SERVICE_ONFIRST || 'ENV.SERVICE_ONFIRST-is-undefined'
+const onSecondService = process.env.SERVICE_ONSECOND || 'ENV.SERVICE_ONSECOND-is-undefined'
+const onThirdService = process.env.SERVICE_ONTHIRD || 'ENV.SERVICE_ONTHIRD-is-undefined'
 
 exports.roster = (req, res) => {
-  const onFirstService = 'https://' + environment_prefix + 'onfirst.' + service_domain
-  const onSecondService = 'https://' + environment_prefix + 'onsecond.' + service_domain
-  const onThirdService = 'https://' + environment_prefix + 'onthird.' + service_domain
 
   const onfirst = new Promise(function(resolve, reject) {
     console.log("requesting " + onFirstService)

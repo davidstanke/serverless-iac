@@ -110,6 +110,7 @@ dist
 js/constants.js
 *.tfstate*
 .DS_Store
+creds
 
 __pycache__
 
