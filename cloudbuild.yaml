@@ -46,5 +46,5 @@ steps:
         "-var","image-tag=$SHORT_SHA"
     ]
     waitFor: ["tf init","test onfirst","test onsecond","push roster"]
-    # env:
-    #   - 'TF_LOG=DEBUG'
+    env:
+      - 'TF_LOG=DEBUG'
