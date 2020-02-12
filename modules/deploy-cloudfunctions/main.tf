@@ -1,12 +1,33 @@
+# zip up our source code
+data "archive_file" "hello_world_zip" {
+ type        = "zip"
+ source_dir  = "src/${var.function-name}/"
+ output_path = "dist/${var.function-name}-${var.function-version}.zip"
+}
+
+# create the storage bucket
+resource "google_storage_bucket" "functions_source_bucket" {
+ name   = "functions_source_bucket"
+}
+
+# place the zip-ed code in the bucket
+resource "google_storage_bucket_object" "function_source" {
+ name   = "${var.function-name}.zip"
+ bucket = google_storage_bucket.functions_source_bucket.name
+ source = "dist/${var.function-name}-${var.function-version}.zip"
+}
+
 resource "google_cloudfunctions_function" "myfunction" {
-  
-  count    = length(var.function-names)
-  name     = var.function-names[count.index]
+
+  name     = var.function-name
   project  = var.project-id
-  location = "us-central1"
-
-  
-
+  available_memory_mb   = 256
+  source_archive_bucket = google_storage_bucket.functions_source_bucket.name
+  source_archive_object = google_storage_bucket_object.function_source.name
+  timeout               = 60
+  entry_point           = var.function-name
+  trigger_http          = true
+  runtime               = "node12"
 }
 
 // # Public access for services

@@ -9,8 +9,9 @@ module "deploy-cloudrun" {
   project-id = var.project-id
 }
 
-module "deploy-cloudfunctions" {
+module "deploy-cloudfunctions"{
   source ="./modules/deploy-cloudfunctions"
-  function-names = var.function-names
+  function-name = "experimental1"
+  function-version = "1001"
   project-id = var.project-id
 }

@@ -3,11 +3,11 @@ variable "project-id" {
   description="Google Cloud Project ID"
 }
 
-variable "function-names" {
-  type=list
-  description="Name of the Google Cloud Functions services to create"
+variable "function-name" {
+  type=string
+  description="Name of the Google Cloud Function to create"
 }
 
-variable "timestamp" {
+variable "function-version" {
   type=string
 }
