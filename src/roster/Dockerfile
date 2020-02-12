@@ -2,9 +2,13 @@
 # https://hub.docker.com/_/node
 FROM node:12-slim
 
-# this string specifies what environment we're running in (and so what endpoints to use)
-ARG ENVIRONMENT_PREFIX=''
-ENV ENVIRONMENT_PREFIX=${ENVIRONMENT_PREFIX}
+# specify the endpoints of the three "player" services
+ARG SERVICE_ONFIRST
+ENV SERVICE_ONFIRST=${SERVICE_ONFIRST}
+ARG SERVICE_ONSECOND
+ENV SERVICE_ONSECOND=${SERVICE_ONSECOND}
+ARG SERVICE_ONTHIRD
+ENV SERVICE_ONTHIRD=${SERVICE_ONTHIRD}
 
 # Create and change to the app directory.
 WORKDIR /usr/src/app

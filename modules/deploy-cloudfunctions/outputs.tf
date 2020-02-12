@@ -1,3 +1,3 @@
-// output "cloudfunction-urls" {
-//   value = split(",", join(",", google_cloud_run_service.myservice[*].status[0].url))
-// }
+output "cloudfunction-url" {
+   value = google_cloudfunctions_function.myfunction.https_trigger_url
+}

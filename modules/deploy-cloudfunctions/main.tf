@@ -1,50 +1,45 @@
-# zip up our source code
-data "archive_file" "hello_world_zip" {
- type        = "zip"
- source_dir  = "src/${var.function-name}/"
- output_path = "dist/${var.function-name}-${var.function-version}.zip"
+resource "google_storage_bucket" "bucket" {
+  name = var.functions-source-bucket
 }
 
-# create the storage bucket
-resource "google_storage_bucket" "functions_source_bucket" {
- name   = "functions_source_bucket"
+# zip up our source code
+data "archive_file" "function_zip" {
+ type        = "zip"
+ source_file  = "src/${var.function-name}/index.js"
+ output_path = "dist/${var.function-name}.zip"
+}
+
+locals {
+  # append the hash of the function source to the archive name, to
+  # force an update when the source changes
+  function_source_hash = filesha256(data.archive_file.function_zip.output_path)
 }
 
 # place the zip-ed code in the bucket
 resource "google_storage_bucket_object" "function_source" {
- name   = "${var.function-name}.zip"
- bucket = google_storage_bucket.functions_source_bucket.name
- source = "dist/${var.function-name}-${var.function-version}.zip"
+ name   = "${var.function-name}-${local.function_source_hash}.zip"
+ bucket = google_storage_bucket.bucket.name
+ source = data.archive_file.function_zip.output_path
 }
 
 resource "google_cloudfunctions_function" "myfunction" {
 
   name     = var.function-name
-  project  = var.project-id
-  available_memory_mb   = 256
-  source_archive_bucket = google_storage_bucket.functions_source_bucket.name
+  runtime               = "nodejs8"
+
+  available_memory_mb   = 128
+  source_archive_bucket = google_storage_bucket.bucket.name
   source_archive_object = google_storage_bucket_object.function_source.name
-  timeout               = 60
   entry_point           = var.function-name
   trigger_http          = true
-  runtime               = "node12"
 }
 
-// # Public access for services
-// data "google_iam_policy" "noauth" {
-//   binding {
-//     role = "roles/run.invoker"
-//     members = [
-//       "allUsers",
-//     ]
-//   }
-// }
+# IAM entry for all users to invoke the function
+resource "google_cloudfunctions_function_iam_member" "invoker" {
+  project        = google_cloudfunctions_function.myfunction.project
+  region         = google_cloudfunctions_function.myfunction.region
+  cloud_function = google_cloudfunctions_function.myfunction.name
 
-// # Enable public access on Cloud Run service
-// resource "google_cloud_run_service_iam_policy" "allUsers" {
-//   count    = length(var.service-names)
-//   location    = google_cloud_run_service.myservice[count.index].location
-//   project     = google_cloud_run_service.myservice[count.index].project
-//   service     = google_cloud_run_service.myservice[count.index].name
-//   policy_data = data.google_iam_policy.noauth.policy_data
-// }
+  role   = "roles/cloudfunctions.invoker"
+  member = "allUsers"
+}
