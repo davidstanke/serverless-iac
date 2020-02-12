@@ -115,3 +115,4 @@ __pycache__
 
 # don't commit project-specific vars to source
 terraform.tfvars
+creds
