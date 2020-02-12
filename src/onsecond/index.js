@@ -1,3 +1,3 @@
 exports.onsecond = (req, res) => {
-  res.send('What');
+  res.send('Alton');
 };
