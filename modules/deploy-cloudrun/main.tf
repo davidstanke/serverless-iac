@@ -16,18 +16,18 @@ resource "google_cloud_run_service" "myservice" {
       container_concurrency = 80
       containers {
         image = "gcr.io/${var.project-id}/${var.service-name}:${var.image-tag}"
-        # env {
-        #   name = "SERVICE_ONFIRST"
-        #   value = var.onFirstService
-        # }
-        # env {
-        #   name = "SERVICE_ONSECOND"
-        #   value = var.onSecondService
-        # }
-        # env {
-        #   name = "SERVICE_ONTHIRD"
-        #   value = var.onThirdService
-        # }
+        env {
+          name = "SERVICE_ONFIRST"
+          value = var.onFirstService
+        }
+        env {
+          name = "SERVICE_ONSECOND"
+          value = var.onSecondService
+        }
+        env {
+          name = "SERVICE_ONTHIRD"
+          value = var.onThirdService
+        }
         resources {
           limits = {
             cpu = "1000m"
