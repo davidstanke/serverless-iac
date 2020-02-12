@@ -10,14 +10,22 @@ provider "google" {
 #   project-id = var.project-id
 # }
 
-module "deploy-cloudfunctions" {
+module "deploy-cloudfunction-onfirst" {
   source ="./modules/deploy-cloudfunctions"
-  function-name = "experimental1"
+  function-name = "onfirst"
   functions-source-bucket="${var.project-id}-functions-source"
 }
 
-output "experimental1_url" {
-  value = module.deploy-cloudfunctions.cloudfunction-url
+module "deploy-cloudfunction-onsecond {
+  source ="./modules/deploy-cloudfunctions"
+  function-name = "onsecond"
+  functions-source-bucket="${var.project-id}-functions-source"
+}
+
+module "deploy-cloudfunction-onthird" {
+  source ="./modules/deploy-cloudfunctions"
+  function-name = "onthird"
+  functions-source-bucket="${var.project-id}-functions-source"
 }
 
 # deploy 'roster' service as Cloud Run
@@ -26,7 +34,7 @@ module "deploy-cloudrun" {
   project-id = var.project-id
   image-tag = var.image-tag
   service-name = "roster"
-  onFirstService = module.deploy-cloudfunctions.cloudfunction-url
-  onSecondService = "https://onsecond.doingdevops.com"
-  onThirdService = "https://onthird.doingdevops.com"
+  onFirstService = module.deploy-cloudfunction-onfirst.cloudfunction-url
+  onSecondService = module.deploy-cloudfunction-onsecond.cloudfunction-url
+  onThirdService = module.deploy-cloudfunction-onthird.cloudfunction-url
 }

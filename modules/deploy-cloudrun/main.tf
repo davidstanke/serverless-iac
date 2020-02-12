@@ -2,6 +2,7 @@ resource "google_cloud_run_service" "myservice" {
   
   name = var.service-name
   location = "us-central1"
+  project = var.project-id
 
   template {
     # NOTE: several of these values are set to the default, but if they are omitted, 
