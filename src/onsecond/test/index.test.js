@@ -13,5 +13,5 @@ it('should return a name', () => {
 
   // Verify behavior of tested function
   assert.ok(res.send.calledOnce);
-  assert.deepStrictEqual(res.send.firstCall.args, [`Alton`]);
+  assert.deepStrictEqual(res.send.firstCall.args, [`What`]);
 });
