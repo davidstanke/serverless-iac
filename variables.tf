@@ -15,3 +15,10 @@ variable "service-names" {
 variable "image-tag" {
   type = string
 }
+
+variable "function-names" {
+  type= list(string)
+  default = [
+    "experimental1",
+  ]
+}
