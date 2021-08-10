@@ -17,7 +17,7 @@ variable "image-tag" {
 }
 
 variable "function-names" {
-  type= list(string)
+  type = list(string)
   default = [
     "experimental1",
   ]

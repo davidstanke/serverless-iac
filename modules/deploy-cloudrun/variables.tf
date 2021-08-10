@@ -1,26 +1,26 @@
 variable "project-id" {
-  type=string
-  description="Google Cloud Project ID"
+  type        = string
+  description = "Google Cloud Project ID"
 }
 
 variable "service-name" {
-  type=string
-  description="Name of the Cloud Run service to create"
+  type        = string
+  description = "Name of the Cloud Run service to create"
 }
 
 variable "image-tag" {
-  type=string
-  description="container image tag to deploy"
+  type        = string
+  description = "container image tag to deploy"
 }
 
 variable "onFirstService" {
-  type=string
+  type = string
 }
 
 variable "onSecondService" {
-  type=string
+  type = string
 }
 
 variable "onThirdService" {
-  type=string
+  type = string
 }

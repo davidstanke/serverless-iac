@@ -1,8 +1,8 @@
 # zip up our source code
 data "archive_file" "function_zip" {
- type        = "zip"
- source_file  = "src/${var.function-name}/main.py"
- output_path = "dist/${var.function-name}.zip"
+  type        = "zip"
+  source_file = "src/${var.function-name}/main.py"
+  output_path = "dist/${var.function-name}.zip"
 }
 
 locals {
@@ -13,15 +13,15 @@ locals {
 
 # place the zip-ed code in the bucket
 resource "google_storage_bucket_object" "function_source" {
- name   = "${var.function-name}-${local.function_source_hash}.zip"
- bucket = var.functions-source-bucket
- source = data.archive_file.function_zip.output_path
+  name   = "${var.function-name}-${local.function_source_hash}.zip"
+  bucket = var.functions-source-bucket
+  source = data.archive_file.function_zip.output_path
 }
 
 resource "google_cloudfunctions_function" "myfunction" {
 
-  name     = var.function-name
-  runtime               = "python37"
+  name    = var.function-name
+  runtime = "python37"
 
   available_memory_mb   = 128
   source_archive_bucket = var.functions-source-bucket
